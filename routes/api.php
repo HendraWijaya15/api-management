@@ -35,6 +35,9 @@ Route::middleware(['auth:sanctum', 'check.api.access'])->group(function () {
 
     //✅ REFERENSI
 
+        //✅ GET prodi
+        Route::get('prodi', [App\Http\Controllers\Api\Feeder\ReferensiBUController::class, 'get_prodi'])->name('api.referensi.bu.get-prodi');
+
         //✅ GET agama
         Route::get('agama', [App\Http\Controllers\Api\Feeder\ReferensiController::class, 'get_agama'])->name('api.referensi.get-agama');
         //✅ GET All Prodi
@@ -73,26 +76,39 @@ Route::middleware(['auth:sanctum', 'check.api.access'])->group(function () {
         Route::get('jenis-beasiswa', [App\Http\Controllers\Api\Feeder\ReferensiController::class, 'get_jenis_beasiswa'])->name('api.referensi.get-jenis-beasiswa');
         // GET jenis_daftar
         Route::get('jenis-daftar', [App\Http\Controllers\Api\Feeder\ReferensiController::class, 'get_jenis_daftar'])->name('api.referensi.get-jenis-daftar');
+        // GET jenis_diklat
+        Route::get('jenis-diklat', [App\Http\Controllers\Api\Feeder\ReferensiController::class, 'get_jenis_diklat'])->name('api.referensi.get-jenis-diklat');
+        // GET jenis_dokumen
+        Route::get('jenis-dokumen', [App\Http\Controllers\Api\Feeder\ReferensiController::class, 'get_jenis_dokumen'])->name('api.referensi.get-jenis-dokumen');
+        // GET jenis_evaluasi
+        Route::get('jenis-evaluasi', [App\Http\Controllers\Api\Feeder\ReferensiController::class, 'get_jenis_evaluasi'])->name('api.referensi.get-jenis-evaluasi');
+        // GET jenis_keluar
+        Route::get('jenis-keluar', [App\Http\Controllers\Api\Feeder\ReferensiController::class, 'get_jenis_keluar'])->name('api.referensi.get-jenis-keluar');
+        // GET jenis_kepanitiaan
+        Route::get('jenis-kepanitiaan', [App\Http\Controllers\Api\Feeder\ReferensiController::class, 'get_jenis_kepanitiaan'])->name('api.referensi.get-jenis-kepanitiaan');
+        // GET jenis_kesejahteraan
+        Route::get('jenis-kesejahteraan', [App\Http\Controllers\Api\Feeder\ReferensiController::class, 'get_jenis_kesejahteraan'])->name('api.referensi.get-jenis-kesejahteraan');
+        // GET jenis_mata_kuliah
+        Route::get('jenis-mata-kuliah', [App\Http\Controllers\Api\Feeder\ReferensiController::class, 'get_jenis_mata_kuliah'])->name('api.referensi.get-jenis-mata-kuliah');
+        // GET jenis_pekerjaan
+        Route::get('jenis-pekerjaan', [App\Http\Controllers\Api\Feeder\ReferensiController::class, 'get_jenis_pekerjaan'])->name('api.referensi.get-jenis-pekerjaan');
+        // GET jenis_penghargaan
+        Route::get('jenis-penghargaan', [App\Http\Controllers\Api\Feeder\ReferensiController::class, 'get_jenis_penghargaan'])->name('api.referensi.get-jenis-penghargaan');
+        // // GET jenis_prestasi
+        Route::get('jenis-prestasi', [App\Http\Controllers\Api\Feeder\ReferensiController::class, 'get_jenis_prestasi'])->name('api.referensi.get-jenis-prestasi');
+        // // GET jenis_publikasi
+        Route::get('jenis-publikasi', [App\Http\Controllers\Api\Feeder\ReferensiController::class, 'get_jenis_publikasi'])->name('api.referensi.get-jenis-publikasi');
+        // // GET jenis_sertifikasi
+        Route::get('jenis-sertifikasi', [App\Http\Controllers\Api\Feeder\ReferensiController::class, 'get_jenis_sertifikasi'])->name('api.referensi.get-jenis-sertifikasi');
     });
 });
 
 
 
-// jenis_diklat
-// jenis_dokumen
-// jenis_evaluasi
-// jenis_keluar
-// jenis_kepanitiaan
-// jenis_kesejahteraan
-// jenis_mata_kuliah
-// jenis_pekerjaan
-// jenis_penghargaan
-// jenis_prestasi
-// jenis_publikasi
-// jenis_sertifikasi
-// jenis_sms
-// jenis_substansi
-// jenis_tes
-// jenis_tinggal
-// jenis_tunjangan
-// jenjang_pendidikan
+
+// GET jenis_sms
+// GET jenis_substansi
+// GET jenis_tes
+// GET jenis_tinggal
+// GET jenis_tunjangan
+// GET jenjang_pendidikan

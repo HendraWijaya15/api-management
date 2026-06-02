@@ -177,640 +177,346 @@ class ReferensiController extends Controller
         ], 200);
     }
 
-    public function get_agama(Request $request)
+    private function getReferensiData(
+        string $table,
+        array $columns,
+        string $orderBy,
+        string $message = 'Data tidak ditemukan.'
+    )
     {
-        // ✅ Ambil seluruh data program studi dari koneksi `pdunsri`
+        // dd([
+        //     'table' => $table,
+        //     'count' => DB::connection('pdunsri')
+        //         ->table($table)
+        //         ->count()
+        // ]);
+
         $data = DB::connection('pdunsri')
-            ->table('agama')
-            ->select(
-                'id_agama',
-                'nama_agama',
-            )
-            ->orderBy('id_agama', 'asc')
+            ->table($table)
+            ->select($columns)
+            ->orderBy($orderBy)
             ->get();
 
-        // ✅ Jika tidak ditemukan
         if ($data->isEmpty()) {
             return response()->json([
-                'message' => 'Agama tidak ditemukan.',
+                'message' => $message,
                 'totalData' => 0,
-                'totalRow'  => 0,
-                'data'      => []
+                'totalRow' => 0,
+                'data' => []
             ], 404);
         }
 
-        // ✅ Hitung jumlah kolom dari record pertama
-        $totalRow = count((array)$data->first());
-
-        // ✅ Jika ditemukan
         return response()->json([
-            'totalData' => $data->count(), // jumlah baris data
-            'totalRow'  => $totalRow,       // jumlah kolom (field)
-            'data'      => $data
-        ], 200);
-    }  
+            'totalData' => $data->count(),
+            'totalRow' => count((array) $data->first()),
+            'data' => $data
+        ]);
+    }
+
+    public function get_agama()
+    {
+        return $this->getReferensiData(
+            'agama',
+            ['id_agama', 'nama_agama'],
+            'id_agama',
+            'Data tidak ditemukan.'
+        );
+    }
 
     public function get_basis_evaluasi(Request $request)
     {
-        // ✅ Ambil seluruh data program studi dari koneksi `pdunsri`
-        $data = DB::connection('pdunsri')
-            ->table('basis_evaluasi')
-            ->select(
-                'id_basis_evaluasi',
-                'nama_basis_evaluasi',
-            )
-            ->orderBy('id_basis_evaluasi', 'asc')
-            ->get();
-
-        // ✅ Jika tidak ditemukan
-        if ($data->isEmpty()) {
-            return response()->json([
-                'message' => 'Basis evaluasi tidak ditemukan.',
-                'totalData' => 0,
-                'totalRow'  => 0,
-                'data'      => []
-            ], 404);
-        }
-
-        // ✅ Hitung jumlah kolom dari record pertama
-        $totalRow = count((array)$data->first());
-
-        // ✅ Jika ditemukan
-        return response()->json([
-            'totalData' => $data->count(), // jumlah baris data
-            'totalRow'  => $totalRow,       // jumlah kolom (field)
-            'data'      => $data
-        ], 200);
+        return $this->getReferensiData(
+            'basis_evaluasi',
+            ['id_basis_evaluasi', 'nama_basis_evaluasi'],
+            'id_basis_evaluasi',
+            'Data tidak ditemukan.'
+        );
     }  
 
     public function get_alat_transportasi(Request $request)
     {
-        // ✅ Ambil seluruh data program studi dari koneksi `pdunsri`
-        $data = DB::connection('pdunsri')
-            ->table('alat_transportasi')
-            ->select(
-                'id_alat_transportasi',
-                'nama_alat_transportasi',
-            )
-            ->orderBy('id_alat_transportasi', 'asc')
-            ->get();
-
-        // ✅ Jika tidak ditemukan
-        if ($data->isEmpty()) {
-            return response()->json([
-                'message' => 'Data tidak ditemukan.',
-                'totalData' => 0,
-                'totalRow'  => 0,
-                'data'      => []
-            ], 404);
-        }
-
-        // ✅ Hitung jumlah kolom dari record pertama
-        $totalRow = count((array)$data->first());
-
-        // ✅ Jika ditemukan
-        return response()->json([
-            'totalData' => $data->count(), // jumlah baris data
-            'totalRow'  => $totalRow,       // jumlah kolom (field)
-            'data'      => $data
-        ], 200);
+        return $this->getReferensiData(
+            'alat_transportasi',
+            ['id_alat_transportasi', 'nama_alat_transportasi'],
+            'id_alat_transportasi',
+            'Data tidak ditemukan.'
+        );
     }  
 
     public function get_bentuk_pendidikan(Request $request)
     {
-        // ✅ Ambil seluruh data program studi dari koneksi `pdunsri`
-        $data = DB::connection('pdunsri')
-            ->table('bentuk_pendidikan')
-            ->select(
-                'id_bentuk_pendidikan',
-                'nama_bentuk_pendidikan',
-            )
-            ->orderBy('id_bentuk_pendidikan', 'asc')
-            ->get();
-
-        // ✅ Jika tidak ditemukan
-        if ($data->isEmpty()) {
-            return response()->json([
-                'message' => 'Data tidak ditemukan.',
-                'totalData' => 0,
-                'totalRow'  => 0,
-                'data'      => []
-            ], 404);
-        }
-
-        // ✅ Hitung jumlah kolom dari record pertama
-        $totalRow = count((array)$data->first());
-
-        // ✅ Jika ditemukan
-        return response()->json([
-            'totalData' => $data->count(), // jumlah baris data
-            'totalRow'  => $totalRow,       // jumlah kolom (field)
-            'data'      => $data
-        ], 200);
+        return $this->getReferensiData(
+            'bentuk_pendidikan',
+            ['id_bentuk_pendidikan', 'nama_bentuk_pendidikan'],
+            'id_bentuk_pendidikan',
+            'Data tidak ditemukan.'
+        );
     }  
 
     public function get_bidang_studi(Request $request)
     {
-        // ✅ Ambil seluruh data program studi dari koneksi `pdunsri`
-        $data = DB::connection('pdunsri')
-            ->table('bidang_studi')
-            ->select(
-                'id',
-                'nama',
-            )
-            ->orderBy('nama', 'asc')
-            ->get();
-
-        // ✅ Jika tidak ditemukan
-        if ($data->isEmpty()) {
-            return response()->json([
-                'message' => 'Data tidak ditemukan.',
-                'totalData' => 0,
-                'totalRow'  => 0,
-                'data'      => []
-            ], 404);
-        }
-
-        // ✅ Hitung jumlah kolom dari record pertama
-        $totalRow = count((array)$data->first());
-
-        // ✅ Jika ditemukan
-        return response()->json([
-            'totalData' => $data->count(), // jumlah baris data
-            'totalRow'  => $totalRow,       // jumlah kolom (field)
-            'data'      => $data
-        ], 200);
-    }  
+        return $this->getReferensiData(
+            'bidang_studi',
+            ['id', 'nama'],
+            'nama',
+            'Data tidak ditemukan.'
+        );
+    }
 
     public function get_bidang_usaha(Request $request)
     {
-        // ✅ Ambil seluruh data program studi dari koneksi `pdunsri`
-        $data = DB::connection('pdunsri')
-            ->table('bidang_usaha')
-            ->select(
-                'id',
-                'nama',
-            )
-            ->orderBy('nama', 'asc')
-            ->get();
-
-        // ✅ Jika tidak ditemukan
-        if ($data->isEmpty()) {
-            return response()->json([
-                'message' => 'Data tidak ditemukan.',
-                'totalData' => 0,
-                'totalRow'  => 0,
-                'data'      => []
-            ], 404);
-        }
-
-        // ✅ Hitung jumlah kolom dari record pertama
-        $totalRow = count((array)$data->first());
-
-        // ✅ Jika ditemukan
-        return response()->json([
-            'totalData' => $data->count(), // jumlah baris data
-            'totalRow'  => $totalRow,       // jumlah kolom (field)
-            'data'      => $data
-        ], 200);
-    }  
+        return $this->getReferensiData(
+            'bidang_usaha',
+            ['id', 'nama'],
+            'nama',
+            'Data tidak ditemukan.'
+        );
+    }
 
     public function get_fakultas(Request $request)
     {
-        // ✅ Ambil seluruh data program studi dari koneksi `pdunsri`
-        $data = DB::connection('pdunsri')
-            ->table('fakultas')
-            ->select(
-                'id_fakultas',
-                'nama_fakultas',
-                'status',
-                'id_jenjang_pendidikan',
-            )
-            ->orderBy('nama_fakultas', 'asc')
-            ->get();
-
-        // ✅ Jika tidak ditemukan
-        if ($data->isEmpty()) {
-            return response()->json([
-                'message' => 'Data tidak ditemukan.',
-                'totalData' => 0,
-                'totalRow'  => 0,
-                'data'      => []
-            ], 404);
-        }
-
-        // ✅ Hitung jumlah kolom dari record pertama
-        $totalRow = count((array)$data->first());
-
-        // ✅ Jika ditemukan
-        return response()->json([
-            'totalData' => $data->count(), // jumlah baris data
-            'totalRow'  => $totalRow,       // jumlah kolom (field)
-            'data'      => $data
-        ], 200);
-    }  
+        return $this->getReferensiData(
+            'fakultas',
+            ['id_fakultas', 'nama_fakultas', 
+                'status', 'id_jenjang_pendidikan'],
+            'nama_fakultas',
+            'Data tidak ditemukan.'
+        );
+    }
 
     public function get_gelar_akademik(Request $request)
     {
-        // ✅ Ambil seluruh data program studi dari koneksi `pdunsri`
-        $data = DB::connection('pdunsri')
-            ->table('gelar_akademik')
-            ->select(
-                'id',
-                'nama',
-                'singkatan'
-            )
-            ->orderBy('id', 'asc')
-            ->get();
-
-        // ✅ Jika tidak ditemukan
-        if ($data->isEmpty()) {
-            return response()->json([
-                'message' => 'Data tidak ditemukan.',
-                'totalData' => 0,
-                'totalRow'  => 0,
-                'data'      => []
-            ], 404);
-        }
-
-        // ✅ Hitung jumlah kolom dari record pertama
-        $totalRow = count((array)$data->first());
-
-        // ✅ Jika ditemukan
-        return response()->json([
-            'totalData' => $data->count(), // jumlah baris data
-            'totalRow'  => $totalRow,       // jumlah kolom (field)
-            'data'      => $data
-        ], 200);
-    }  
+        return $this->getReferensiData(
+            'gelar_akademik',
+            ['id', 'nama', 'singkatan'],
+            'id',
+            'Data tidak ditemukan.'
+        );
+    }
 
     public function get_golongan_pangkat(Request $request)
     {
-        // ✅ Ambil seluruh data program studi dari koneksi `pdunsri`
-        $data = DB::connection('pdunsri')
-            ->table('golongan_pangkat')
-            ->select(
-                'id',
-                'nama'
-            )
-            ->orderBy('id', 'asc')
-            ->get();
-
-        // ✅ Jika tidak ditemukan
-        if ($data->isEmpty()) {
-            return response()->json([
-                'message' => 'Data tidak ditemukan.',
-                'totalData' => 0,
-                'totalRow'  => 0,
-                'data'      => []
-            ], 404);
-        }
-
-        // ✅ Hitung jumlah kolom dari record pertama
-        $totalRow = count((array)$data->first());
-
-        // ✅ Jika ditemukan
-        return response()->json([
-            'totalData' => $data->count(), // jumlah baris data
-            'totalRow'  => $totalRow,       // jumlah kolom (field)
-            'data'      => $data
-        ], 200);
-    }  
+        return $this->getReferensiData(
+            'golongan_pangkat',
+            ['id', 'nama'],
+            'id',
+            'Data tidak ditemukan.'
+        );
+    }
 
     public function get_ikatan_kerja(Request $request)
     {
-        // ✅ Ambil seluruh data program studi dari koneksi `pdunsri`
-        $data = DB::connection('pdunsri')
-            ->table('ikatan_kerja')
-            ->select(
-                'id',
-                'nama'
-            )
-            ->orderBy('id', 'asc')
-            ->get();
-
-        // ✅ Jika tidak ditemukan
-        if ($data->isEmpty()) {
-            return response()->json([
-                'message' => 'Data tidak ditemukan.',
-                'totalData' => 0,
-                'totalRow'  => 0,
-                'data'      => []
-            ], 404);
-        }
-
-        // ✅ Hitung jumlah kolom dari record pertama
-        $totalRow = count((array)$data->first());
-
-        // ✅ Jika ditemukan
-        return response()->json([
-            'totalData' => $data->count(), // jumlah baris data
-            'totalRow'  => $totalRow,       // jumlah kolom (field)
-            'data'      => $data
-        ], 200);
-    }  
+        return $this->getReferensiData(
+            'ikatan_kerja',
+            ['id', 'nama'],
+            'id',
+            'Data tidak ditemukan.'
+        );
+    }
 
     public function get_ikatan_kerja_sdm(Request $request)
     {
-        // ✅ Ambil seluruh data program studi dari koneksi `pdunsri`
-        $data = DB::connection('pdunsri')
-            ->table('ikatan_kerja_sdm')
-            ->select(
-                'id_ikatan_kerja',
-                'nama_ikatan_kerja'
-            )
-            ->orderBy('id_ikatan_kerja', 'asc')
-            ->get();
-
-        // ✅ Jika tidak ditemukan
-        if ($data->isEmpty()) {
-            return response()->json([
-                'message' => 'Data tidak ditemukan.',
-                'totalData' => 0,
-                'totalRow'  => 0,
-                'data'      => []
-            ], 404);
-        }
-
-        // ✅ Hitung jumlah kolom dari record pertama
-        $totalRow = count((array)$data->first());
-
-        // ✅ Jika ditemukan
-        return response()->json([
-            'totalData' => $data->count(), // jumlah baris data
-            'totalRow'  => $totalRow,       // jumlah kolom (field)
-            'data'      => $data
-        ], 200);
-    }  
+        return $this->getReferensiData(
+            'ikatan_kerja_sdm',
+            ['id_ikatan_kerja', 'nama_ikatan_kerja'],
+            'id_ikatan_kerja',
+            'Data tidak ditemukan.'
+        );
+    }
 
     public function get_jabatan_fungsional(Request $request)
     {
-        // ✅ Ambil seluruh data program studi dari koneksi `pdunsri`
-        $data = DB::connection('pdunsri')
-            ->table('jabatan_fungsional')
-            ->select(
-                'id_jabatan_fungsional',
-                'nama_jabatan_fungsional'
-            )
-            ->orderBy('id_jabatan_fungsional', 'asc')
-            ->get();
-
-        // ✅ Jika tidak ditemukan
-        if ($data->isEmpty()) {
-            return response()->json([
-                'message' => 'Data tidak ditemukan.',
-                'totalData' => 0,
-                'totalRow'  => 0,
-                'data'      => []
-            ], 404);
-        }
-
-        // ✅ Hitung jumlah kolom dari record pertama
-        $totalRow = count((array)$data->first());
-
-        // ✅ Jika ditemukan
-        return response()->json([
-            'totalData' => $data->count(), // jumlah baris data
-            'totalRow'  => $totalRow,       // jumlah kolom (field)
-            'data'      => $data
-        ], 200);
-    }  
+        return $this->getReferensiData(
+            'jabatan_fungsional',
+            ['id_jabatan_fungsional', 'nama_jabatan_fungsional'],
+            'id_jabatan_fungsional',
+            'Data tidak ditemukan.'
+        );
+    }
 
     public function get_jabatan_negara(Request $request)
     {
-        // ✅ Ambil seluruh data program studi dari koneksi `pdunsri`
-        $data = DB::connection('pdunsri')
-            ->table('jabatan_negara')
-            ->select(
-                'id',
-                'nama'
-            )
-            ->orderBy('id', 'asc')
-            ->get();
-
-        // ✅ Jika tidak ditemukan
-        if ($data->isEmpty()) {
-            return response()->json([
-                'message' => 'Data tidak ditemukan.',
-                'totalData' => 0,
-                'totalRow'  => 0,
-                'data'      => []
-            ], 404);
-        }
-
-        // ✅ Hitung jumlah kolom dari record pertama
-        $totalRow = count((array)$data->first());
-
-        // ✅ Jika ditemukan
-        return response()->json([
-            'totalData' => $data->count(), // jumlah baris data
-            'totalRow'  => $totalRow,       // jumlah kolom (field)
-            'data'      => $data
-        ], 200);
-    }  
+        return $this->getReferensiData(
+            'jabatan_negara',
+            ['id', 'nama'],
+            'id',
+            'Data tidak ditemukan.'
+        );
+    }
 
     public function get_jabatan_tugas_tambahan(Request $request)
     {
-        // ✅ Ambil seluruh data program studi dari koneksi `pdunsri`
-        $data = DB::connection('pdunsri')
-            ->table('jabatan_tugas_tambahan')
-            ->select(
-                'id',
-                'nama'
-            )
-            ->orderBy('id', 'asc')
-            ->get();
-
-        // ✅ Jika tidak ditemukan
-        if ($data->isEmpty()) {
-            return response()->json([
-                'message' => 'Data tidak ditemukan.',
-                'totalData' => 0,
-                'totalRow'  => 0,
-                'data'      => []
-            ], 404);
-        }
-
-        // ✅ Hitung jumlah kolom dari record pertama
-        $totalRow = count((array)$data->first());
-
-        // ✅ Jika ditemukan
-        return response()->json([
-            'totalData' => $data->count(), // jumlah baris data
-            'totalRow'  => $totalRow,       // jumlah kolom (field)
-            'data'      => $data
-        ], 200);
-     }
+        return $this->getReferensiData(
+            'jabatan_tugas_tambahan',
+            ['id', 'nama'],
+            'id',
+            'Data tidak ditemukan.'
+        );
+    }
 
     public function get_jalur_masuk(Request $request)
     {
-        // ✅ Ambil seluruh data program studi dari koneksi `pdunsri`
-        $data = DB::connection('pdunsri')
-            ->table('jalur_masuk')
-            ->select(
-                'id_jalur_masuk',
-                'nama_jalur_masuk'
-            )
-            ->orderBy('id_jalur_masuk', 'asc')
-            ->get();
+        return $this->getReferensiData(
+            'jalur_masuk',
+            ['id_jalur_masuk', 'nama_jalur_masuk'],
+            'id_jalur_masuk',
+            'Data tidak ditemukan.'
+        );
+    }
 
-        // ✅ Jika tidak ditemukan
-        if ($data->isEmpty()) {
-            return response()->json([
-                'message' => 'Data tidak ditemukan.',
-                'totalData' => 0,
-                'totalRow'  => 0,
-                'data'      => []
-            ], 404);
-        }
-
-        // ✅ Hitung jumlah kolom dari record pertama
-        $totalRow = count((array)$data->first());
-
-        // ✅ Jika ditemukan
-        return response()->json([
-            'totalData' => $data->count(), // jumlah baris data
-            'totalRow'  => $totalRow,       // jumlah kolom (field)
-            'data'      => $data
-        ], 200);
-     }
-
-     public function get_jenis_aktivitas_mahasiswa(Request $request)
+    public function get_jenis_aktivitas_mahasiswa(Request $request)
     {
-        // ✅ Ambil seluruh data program studi dari koneksi `pdunsri`
-        $data = DB::connection('pdunsri')
-            ->table('jenis_aktivitas_mahasiswa')
-            ->select(
-                'id_jenis_aktivitas_mahasiswa',
-                'nama_jenis_aktivitas_mahasiswa'
-            )
-            ->orderBy('id_jenis_aktivitas_mahasiswa', 'asc')
-            ->get();
+        return $this->getReferensiData(
+            'jenis_aktivitas_mahasiswa',
+            ['id_jenis_aktivitas_mahasiswa', 'nama_jenis_aktivitas_mahasiswa'],
+            'id_jenis_aktivitas_mahasiswa',
+            'Data tidak ditemukan.'
+        );
+    }
 
-        // ✅ Jika tidak ditemukan
-        if ($data->isEmpty()) {
-            return response()->json([
-                'message' => 'Data tidak ditemukan.',
-                'totalData' => 0,
-                'totalRow'  => 0,
-                'data'      => []
-            ], 404);
-        }
-
-        // ✅ Hitung jumlah kolom dari record pertama
-        $totalRow = count((array)$data->first());
-
-        // ✅ Jika ditemukan
-        return response()->json([
-            'totalData' => $data->count(), // jumlah baris data
-            'totalRow'  => $totalRow,       // jumlah kolom (field)
-            'data'      => $data
-        ], 200);
-     }
-
-     public function get_jenis_beasiswa(Request $request)
+    public function get_jenis_beasiswa(Request $request)
     {
-        // ✅ Ambil seluruh data program studi dari koneksi `pdunsri`
-        $data = DB::connection('pdunsri')
-            ->table('jenis_beasiswa')
-            ->select(
-                'id',
-                'nama'
-            )
-            ->orderBy('id', 'asc')
-            ->get();
+        return $this->getReferensiData(
+            'jenis_beasiswa',
+            ['id', 'nama'],
+            'id',
+            'Data tidak ditemukan.'
+        );
+    }
 
-        // ✅ Jika tidak ditemukan
-        if ($data->isEmpty()) {
-            return response()->json([
-                'message' => 'Data tidak ditemukan.',
-                'totalData' => 0,
-                'totalRow'  => 0,
-                'data'      => []
-            ], 404);
-        }
-
-        // ✅ Hitung jumlah kolom dari record pertama
-        $totalRow = count((array)$data->first());
-
-        // ✅ Jika ditemukan
-        return response()->json([
-            'totalData' => $data->count(), // jumlah baris data
-            'totalRow'  => $totalRow,       // jumlah kolom (field)
-            'data'      => $data
-        ], 200);
-     }
-
-     public function get_jenis_daftar(Request $request)
+    public function get_jenis_daftar(Request $request)
     {
-        // ✅ Ambil seluruh data program studi dari koneksi `pdunsri`
-        $data = DB::connection('pdunsri')
-            ->table('jenis_daftar')
-            ->select(
-                'id_jenis_daftar',
-                'nama_jenis_daftar'
-            )
-            ->orderBy('id_jenis_daftar', 'asc')
-            ->get();
+        return $this->getReferensiData(
+            'jenis_daftar',
+            ['id_jenis_daftar', 'nama_jenis_daftar'],
+            'id_jenis_daftar',
+            'Data tidak ditemukan.'
+        );
+    }
 
-        // ✅ Jika tidak ditemukan
-        if ($data->isEmpty()) {
-            return response()->json([
-                'message' => 'Data tidak ditemukan.',
-                'totalData' => 0,
-                'totalRow'  => 0,
-                'data'      => []
-            ], 404);
-        }
+    public function get_jenis_diklat(Request $request)
+    {
+        return $this->getReferensiData(
+            'jenis_diklat',
+            ['id', 'nama'],
+            'id',
+            'Data tidak ditemukan.'
+        );
+    }
 
-        // ✅ Hitung jumlah kolom dari record pertama
-        $totalRow = count((array)$data->first());
+    public function get_jenis_dokumen(Request $request)
+    {
+        return $this->getReferensiData(
+            'jenis_dokumen',
+            ['id', 'nama'],
+            'id',
+            'Data tidak ditemukan.'
+        );
+    }
 
-        // ✅ Jika ditemukan
-        return response()->json([
-            'totalData' => $data->count(), // jumlah baris data
-            'totalRow'  => $totalRow,       // jumlah kolom (field)
-            'data'      => $data
-        ], 200);
-     }
+    public function get_jenis_evaluasi(Request $request)
+    {
+        return $this->getReferensiData(
+            'jenis_evaluasi',
+            ['id_jenis_evaluasi', 'nama_jenis_evaluasi'],
+            'id_jenis_evaluasi',
+            'Data tidak ditemukan.'
+        );
+    }
+
+    public function get_jenis_keluar(Request $request)
+    {
+        return $this->getReferensiData(
+            'jenis_keluar',
+            ['id_jenis_keluar', 'jenis_keluar', 'apa_mahasiswa'],
+            'id_jenis_keluar',
+            'Data tidak ditemukan.'
+        );
+    }
+
+    public function get_jenis_kepanitiaan(Request $request)
+    {
+        return $this->getReferensiData(
+            'jenis_kepanitiaan',
+            ['id', 'nama'],
+            'id',
+            'Data tidak ditemukan.'
+        );
+    }
+
+    public function get_jenis_kesejahteraan(Request $request)
+    {
+        return $this->getReferensiData(
+            'jenis_kesejahteraan',
+            ['id', 'nama'],
+            'id',
+            'Data tidak ditemukan.'
+        );
+    }
+
+    public function get_jenis_mata_kuliah(Request $request)
+    {
+        return $this->getReferensiData(
+            'jenis_mata_kuliah',
+            ['id_jenis_mata_kuliah', 'nama_jenis_mata_kuliah'],
+            'id_jenis_mata_kuliah',
+            'Data tidak ditemukan.'
+        );
+    }
+
+    public function get_jenis_pekerjaan(Request $request)
+    {
+        return $this->getReferensiData(
+            'jenis_pekerjaan',
+            ['id', 'nama'],
+            'id',
+            'Data tidak ditemukan.'
+        );
+    }
+
+    public function get_jenis_penghargaan(Request $request)
+    {
+        return $this->getReferensiData(
+            'jenis_penghargaan',
+            ['id', 'nama'],
+            'id',
+            'Data tidak ditemukan.'
+        );
+    }
+
+    public function get_jenis_prestasi(Request $request)
+    {
+        return $this->getReferensiData(
+            'jenis_prestasi',
+            ['id_jenis_prestasi', 'nama_jenis_prestasi'],
+            'id_jenis_prestasi',
+            'Data tidak ditemukan.'
+        );
+    }
+
+    public function get_jenis_publikasi(Request $request)
+    {
+        return $this->getReferensiData(
+            'jenis_publikasi',
+            ['id', 'nama'],
+            'id',
+            'Data tidak ditemukan.'
+        );
+    }
+
+    public function get_jenis_sertifikasi(Request $request)
+    {
+        return $this->getReferensiData(
+            'jenis_sertifikasi',
+            ['id_jenis_sertifikasi', 'nama_jenis_sertifikasi'],
+            'id_jenis_sertifikasi',
+            'Data tidak ditemukan.'
+        );
+    }
+
     
 }
 
-// jenis_diklat
-// id, nama
-
-// jenis_dokumen
-// id, nama
-
-// jenis_evaluasi
-// id_jenis_evaluasi, nama_jenis_evaluasi
-
-// jenis_keluar
-// id_jenis_keluar
-
-// jenis_kepanitiaan
-// id, nama
-
-// jenis_kesejahteraan
-// id, nama
-
-// jenis_mata_kuliah
-// id_jenis_mata_kuliah, nama_jenis_mata_kuliah
-
-// jenis_pekerjaan
-// id, nama
-
-// jenis_penghargaan
-// id, nama
-
-// jenis_prestasi
-// id_jenis_prestasi, nama_jenis_prestasi
-
-// jenis_publikasi
-// id, nama
-
-// jenis_sertifikasi
-// id_jenis_sertifikasi, nama_jenis_sertifikasi
 
 // jenis_sms
 // id_jenis_sms, nama_jenis_sms
