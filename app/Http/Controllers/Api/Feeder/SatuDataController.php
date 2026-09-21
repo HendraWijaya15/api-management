@@ -42,7 +42,9 @@ class SatuDataController extends Controller
         'access_token',
         'alamat',
         'api_key',
-        'biaya_kuliah',
+        // 'biaya_kuliah' sengaja tidak disaring: satu-satunya kolom yang cocok
+        // adalah aktivitas_kuliah_mahasiswa.biaya_kuliah_smt, dan nilainya
+        // dibutuhkan untuk analisis sebaran UKT.
         'ds_kel',
         'dusun',
         'email',
