@@ -54,6 +54,10 @@ Route::middleware(['auth:sanctum', 'check.api.access'])->group(function () {
         Route::get('bidang-studi', [SatuDataController::class, 'get_bidang_studi'])->name('api.referensi.get-bidang-studi');
         //✅ GET Bidang Usaha
         Route::get('bidang-usaha', [SatuDataController::class, 'get_bidang_usaha'])->name('api.referensi.get-bidang-usaha');
+        //✅ GET daftar mou
+        Route::get('daftar-mou', [SatuDataController::class, 'get_daftar_mou'])->name('api.referensi.daftar-mou');
+        //✅ GET daftar pks
+        Route::get('daftar-pks', [SatuDataController::class, 'get_daftar_pks'])->name('api.referensi.daftar-pks');
         //✅ GET fakultas
         Route::get('fakultas', [SatuDataController::class, 'get_fakultas'])->name('api.referensi.get-fakultas');
         //✅ GET gelar akademik
@@ -166,6 +170,7 @@ Route::middleware(['auth:sanctum', 'check.api.access'])->group(function () {
         // GET dosen_pembimbing
         Route::get('dosen-pembimbing', [SatuDataController::class, 'get_dosen_pembimbing'])->name('api.dosen.get-dosen-pembimbing');
         // GET dosen_pengajar_kelas_kuliah
+        Route::get('dosen-pengajar-kelas-kuliah', [SatuDataController::class, 'get_dosen_pengajar_kelas_kuliah'])->name('api.dosen.dosen-pengajar-kelas-kuliah');
         Route::get('sister-list-ajuan-jabatan-fungsional', [SatuDataController::class, 'get_sister_list_ajuan_jabatan_fungsional'])->name('api.referensi.sister-list-ajuan-jabatan-fungsional');
         Route::get('sister-list-ajuan-kepangkatan', [SatuDataController::class, 'get_sister_list_ajuan_kepangkatan'])->name('api.referensi.sister-list-ajuan-kepangkatan');
         Route::get('sister-list-ajuan-nilai-tes', [SatuDataController::class, 'get_sister_list_ajuan_nilai_tes'])->name('api.referensi.sister-list-ajuan-nilai-tes');

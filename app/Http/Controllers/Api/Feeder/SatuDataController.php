@@ -77,8 +77,7 @@ class SatuDataController extends Controller
     private function getReferensiData(
         string $table,
         array $columns,
-        array $orderBy = [],
-        string $notFoundMessage = 'Data tidak ditemukan.'
+        array $orderBy = []
     ) {
         $limit = min(max(request()->integer('limit', 100), 1), 1000);
         $offset = max(request()->integer('offset', 0), 0);
@@ -100,19 +99,11 @@ class SatuDataController extends Controller
             ->limit($limit)
             ->get();
 
-        if ($data->isEmpty()) {
-            return response()->json([
-                'message' => $notFoundMessage,
-                'totalData' => 0,
-                'returnedData' => 0,
-                'totalPage' => 0,
-                'currentPage' => 0,
-                'data' => []
-            ], 404);
-        }
-
-        $totalPage = ceil($totalData / $limit);
-        $currentPage = floor($offset / $limit) + 1;
+        // Hasil kosong bukan galat: tabel yang memang belum berisi, dan halaman
+        // terakhir sebuah penelusuran, sama-sama sah. 404 disediakan untuk tabel
+        // yang tidak ada (lihat getDatabaseTableData), bukan untuk data yang nol.
+        $totalPage = $totalData > 0 ? ceil($totalData / $limit) : 0;
+        $currentPage = $totalData > 0 ? floor($offset / $limit) + 1 : 0;
 
         return response()->json([
             'limit' => $limit,
@@ -211,8 +202,7 @@ class SatuDataController extends Controller
         return $this->getReferensiData(
             $table,
             $columns,
-            [$columns[0]],
-            'Data tidak ditemukan.'
+            [$columns[0]]
         );
     }
 
