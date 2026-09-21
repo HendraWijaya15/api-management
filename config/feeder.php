@@ -46,4 +46,27 @@ return [
     'count_exact_max_rows' => env('FEEDER_COUNT_EXACT_MAX_ROWS', 1000000),
     'count_ttl' => env('FEEDER_COUNT_TTL', 600),
 
+    /*
+    |--------------------------------------------------------------------------
+    | Penelusuran dengan cursor
+    |--------------------------------------------------------------------------
+    |
+    | `max_tie_offset` adalah penjaga, bukan setelan: hitungan seri menentukan
+    | dirinya sendiri dari ukuran grup nilai terbesar, dan bila ia sampai
+    | melewati angka ini berarti kolom seeknya memang tidak cocok — lebih baik
+    | ditolak daripada diam-diam kembali menjadi offset dalam.
+    |
+    | `force_seek_index` memaksa halaman lanjutan memakai indeks seek ketika
+    | tidak ada filter. Itu yang menjamin range scan, dan range scan yang
+    | menjamin urutan di dalam satu grup nilai tetap sama antar request —
+    | landasan yang menopang seluruh skema ini. Dengan filter terpasang,
+    | pilihan optimizer hampir selalu lebih baik, jadi tidak dipaksa.
+    |
+    */
+
+    'cursor_enabled' => env('FEEDER_CURSOR_ENABLED', true),
+    'max_tie_offset' => env('FEEDER_MAX_TIE_OFFSET', 50000),
+    'force_seek_index' => env('FEEDER_FORCE_SEEK_INDEX', true),
+    'deep_offset_warn' => env('FEEDER_DEEP_OFFSET_WARN', 100000),
+
 ];
