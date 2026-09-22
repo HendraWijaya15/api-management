@@ -4,7 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\Feeder\SatuDataController;
-
+use App\Http\Controllers\Api\LppmController;
 
 Route::post('get-token', [AuthController::class, 'getToken']);
 
@@ -374,5 +374,10 @@ Route::middleware(['auth:sanctum', 'check.api.access'])->group(function () {
         Route::get('transkrip-mahasiswa', [SatuDataController::class, 'get_transkrip_mahasiswa'])->name('api.referensi.transkrip-mahasiswa');
         Route::get('unit-kerja', [SatuDataController::class, 'get_unit_kerja'])->name('api.referensi.unit-kerja');
         Route::get('wilayah', [SatuDataController::class, 'get_wilayah'])->name('api.referensi.wilayah');
+
+        //SIM LPPM
+        Route::get('/desa-binaan',[LppmController::class, 'api.desa_binaan']);
+        Route::get('/penelitian-dosen',[LppmController::class, 'api.penelitian_dosen']);
+        Route::get('/pengabdian-dosen',[LppmController::class, 'api.pengabdian_dosen']);
     });
 });
